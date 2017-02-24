@@ -10,6 +10,8 @@
 import string
 import csv
 import re
+import math
+import time
 from collections import defaultdict
 from collections import Counter
 
@@ -21,10 +23,47 @@ class EntropyCalculator:
         self.answers_fn = '../pythonquestions/Answers.csv'
         self.tags_fn = '../pythonquestions/Tags.csv'
         self.discussions = set()
+        self.term2entropy = defaultdict(float)
 
-    
+    #TODO: assert term2count has same # of terms as term2discussion2count
+
+
     def calc_entropies(self):
-        num_discussions = len(self.discussions)
+        """Calculate the entropy of each term and write a {term: entropy} dict to pickle.
+
+        Call after self.count_terms()
+        Note that we do -= instead of how the paper does +=.
+        """
+        num_discussions = float(len(self.discussions))
+        num_terms = len(self.term2count)
+        count = 0
+        cur_time = time.time()
+        for term in self.term2discussion2count:
+            count += 1
+            if count % (num_terms / 10) == 0:
+                print 'calculated entropies for chunk %d of 10 in %.2fs' % (count / (num_terms/10), time.time() - cur_time)
+                cur_time = time.time()
+            term_ct = float(self.term2count[term])
+            for discussion in self.term2discussion2count[term]:
+                term_dis_ct = float(self.term2discussion2count[term][discussion])
+                p_d = term_dis_ct / term_ct
+                self.term2entropy[term] -= p_d * math.log(p_d, num_discussions)
+        cur_time = time.time()
+
+        with open('term2entropy.pkl', 'wb') as outfile:
+            pickle.dump(self.term2entropy, outfile)
+        print 'took %.2fs to dump pickle' % (time.time() - cur_time)
+
+        zero_ents = []
+        for term in self.term2entropy:
+            entropy = self.term2entropy[term]
+            if entropy:
+                continue
+                print '%s: %.3f' % (term, entropy)
+            else:
+                zero_ents.append(term)
+        print len(zero_ents)
+        print len(self.term2entropy)
 
 
     def inc_term2dis(self, term, discussion, val=1):
@@ -64,6 +103,7 @@ class EntropyCalculator:
             questions: True if processing Questions.csv. False if processing Answers.csv.
         """
         in_fn = self.questions_fn if questions else self.answers_fn
+        cur_time = time.time()
         with open(in_fn, 'rb') as infile:
             reader = csv.reader(infile)
             count = 0
@@ -71,8 +111,10 @@ class EntropyCalculator:
                 count += 1
                 if count == 1:
                     continue
-                if count > 40:
-                    break
+                if count % 10000 == 0:
+                    print count
+                    print 'time to process 1000: %.2f' % (time.time()-cur_time)
+                    cur_time = time.time()
                 if questions:
                     discussion_id, _, _, _, _, body = line
                 else:
@@ -80,6 +122,7 @@ class EntropyCalculator:
                 discussion_id = int(discussion_id)
                 self.discussions.add(discussion_id)
                 self.parse_terms(body, discussion_id)
+        print 'read %d lines' % count
 
 
 
