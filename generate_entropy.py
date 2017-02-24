@@ -1,6 +1,10 @@
 """
     Iterate through all the questions and answers to generate a dict mapping term to its entropy value.
     Store the dict in entropies.pkl.
+    Force every string to lower case for consistency.
+    abc_def -> abcdef
+    <code>self.data[seas_no][ep_no]['attribute'] -> self data seasno epno attribute
+    ignore tokens that are just numbers (for storage size purposes)
 """
 import string
 import csv
@@ -38,27 +42,19 @@ class EntropyCalculator:
             discussion: The int id of the discussion whose body we are parsing.
         """
         #print body
-        body = re.sub('<.*?>', '', body)
-        print ''
-        body = re.sub('\n|\r', ' ', body)
-        print body
+        body = re.sub('<.*?>', '', body).lower()
+        #print ''
+        body = re.sub('\n|\r|/|\(|\)|\.|\[|\]', ' ', body)
+        #print body
         occurrence = Counter(body.translate(None, string.punctuation).split())
-        print occurrence
-        print ''
+        #print occurrence
+        #print ''
         for term in occurrence:
+            if term.isdigit():
+                continue
             self.term2count[term] += occurrence[term]
             self.inc_term2dis(term, discussion, occurrence[term])
 
-
-        """
-        body = body.translate(None, string.punctuation)
-        print re.split(' |\n|\r', body)
-        terms = [i for i in re.split(' |\n|\r', body) if i]
-        for term in terms:
-            self.term2count[term] += 1
-            self.inc_term2dis(term, discussion)
-        print terms
-        """
 
 
     def process_csv(self, questions=True):
@@ -75,7 +71,7 @@ class EntropyCalculator:
                 count += 1
                 if count == 1:
                     continue
-                if count > 4:
+                if count > 40:
                     break
                 if questions:
                     discussion_id, _, _, _, _, body = line
@@ -83,9 +79,10 @@ class EntropyCalculator:
                     _, _, _, discussion_id, _, body = line
                 self.parse_terms(body, discussion_id)
 
-        exit(1)
         print self.term2count
+        print ''
         print self.term2discussion2count
+        exit(1)
 
 
     def count_terms(self):
