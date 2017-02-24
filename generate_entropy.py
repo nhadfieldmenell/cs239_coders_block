@@ -63,7 +63,9 @@ class EntropyCalculator:
                 print '%s: %.3f' % (term, entropy)
             else:
                 zero_ents.append(term)
+        print 'zeros'
         print len(zero_ents)
+        print 'total terms'
         print len(self.term2entropy)
 
 
