@@ -7,6 +7,7 @@
     ignore tokens that are just numbers (for storage size purposes)
         this includes, say, version numbers: '10.5' -> '' -> ignored
 """
+import pickle
 import string
 import csv
 import re
@@ -113,7 +114,7 @@ class EntropyCalculator:
                     continue
                 if count % 10000 == 0:
                     print count
-                    print 'time to process 1000: %.2f' % (time.time()-cur_time)
+                    print 'time to process 10000: %.2f' % (time.time()-cur_time)
                     cur_time = time.time()
                 if questions:
                     discussion_id, _, _, _, _, body = line
