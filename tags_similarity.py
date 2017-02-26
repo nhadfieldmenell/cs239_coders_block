@@ -23,9 +23,20 @@ tdf = pd.read_csv('pythonquestions/Tags.csv', encoding='iso-8859-1')
 nltk.data.path.append('/Users/orpaz/Developer/nltk_data')
 
 
-# In[8]:
+# In[39]:
 
-qdf.join(tdf.set_index('Id'), on='Id')
+def stem_tags(data):
+    for i, row in data.iterrows():
+        if type(row['Tag']) is str:
+            st = " ".join(re.findall("[a-zA-Z]+", row['Tag']))
+            data.set_value(i, "Tag", st)
+
+
+# In[40]:
+
+if __name__ == '__main__':
+    stem_tags(tdf)
+    #df = qdf.join(tdf.set_index('Id'), on='Id')
 
 
 # In[ ]:
