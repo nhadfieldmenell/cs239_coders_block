@@ -89,8 +89,7 @@ class EntropyCalculator:
             body: A string containing a question/answer body.
             discussion: The int id of the discussion whose body we are parsing.
         """
-        body = re.sub('<.*?>', '', body).lower()
-        body = re.sub('\n|\r|/|\(|\)|\.|\[|\]', ' ', body)
+        body = re.sub('\n|\r|/|\(|\)|\.|\[|\]|<.*?>', ' ', body).lower()
         occurrence = Counter(body.translate(None, string.punctuation).split())
         for term in occurrence:
             if term.isdigit():
