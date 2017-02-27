@@ -51,7 +51,7 @@ class EntropyCalculator:
                 self.term2entropy[term] -= p_d * math.log(p_d, num_discussions)
         cur_time = time.time()
 
-        with open('term2entropy.pkl', 'wb') as outfile:
+        with open('../pythonquestions/term2entropy.pkl', 'wb') as outfile:
             pickle.dump(self.term2entropy, outfile)
         print 'took %.2fs to dump pickle' % (time.time() - cur_time)
 
