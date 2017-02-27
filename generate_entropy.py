@@ -3,7 +3,7 @@
     Store the dict in entropies.pkl.
     Force every string to lower case for consistency.
     abc_def -> abcdef
-    <code>self.data[seas_no][ep_no]['attribute'] -> self data seasno epno attribute
+    <code>self.data[seas_no][ep_no]['attribute'] -> self data seas_no ep_no attribute
     ignore tokens that are just numbers (for storage size purposes)
         this includes, say, version numbers: '10.5' -> '' -> ignored
 """
