@@ -13,6 +13,7 @@ import csv
 import re
 import math
 import time
+import punctuation
 from collections import defaultdict
 from collections import Counter
 
@@ -90,7 +91,7 @@ class EntropyCalculator:
             discussion: The int id of the discussion whose body we are parsing.
         """
         body = re.sub('\n|\r|/|\(|\)|\.|\[|\]|<.*?>', ' ', body).lower()
-        occurrence = Counter(body.translate(None, string.punctuation).split())
+        occurrence = Counter(body.translate(None, punctuation.punctuation_no_underscore()).split())
         for term in occurrence:
             if term.isdigit():
                 continue
