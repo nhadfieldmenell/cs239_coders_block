@@ -1,33 +1,34 @@
 
 # coding: utf-8
 
-# In[82]:
+# In[1]:
 
 import pandas as pd
 import numpy as np
 from bs4 import BeautifulSoup
-import nltk
+#import nltk
 from nltk.corpus import stopwords
 from nltk.stem.snowball import *
 import re
 import pickle
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import linear_kernel
 
 
-# In[52]:
+# In[148]:
 
 '''
 Iterate through the entire question database, preprocess the content of the 'Body'
 and creare a Tf/Idf matrix to be used for scoring the query from the client.
 '''
 
-# Load data and use correct encoding
+# Load data and use correct encoding 
 df = pd.read_csv('pythonquestions/Questions.csv', encoding='iso-8859-1')
 # Using nltk data for stop words etc'
 nltk.data.path.append('/Users/orpaz/Developer/nltk_data')
 
 
-# In[61]:
+# In[149]:
 
 def stem_data(data):
     '''
@@ -42,7 +43,7 @@ def stem_data(data):
         data.set_value(i, "processed_body", str(q))
 
 
-# In[62]:
+# In[150]:
 
 def remove_stop_words(data):
     '''
@@ -57,7 +58,7 @@ def remove_stop_words(data):
         data.set_value(i, "processed_body", q)
 
 
-# In[143]:
+# In[151]:
 
 def vectorizer(data):
     '''
@@ -69,16 +70,35 @@ def vectorizer(data):
     X = vectorizer.fit_transform(data['processed_body'])
     idf = vectorizer._tfidf.idf_
     tokens = dict(zip(vectorizer.get_feature_names(), idf))
+    
+    pickle.dump(vectorizer, open('tex_sim_pkls/tfidf_model.pkl', 'wb')) 
+    pickle.dump(X, open('tex_sim_pkls/questions_tfidf.pkl', 'wb')) 
+    pickle.dump(tokens, open('tex_sim_pkls/tokens_dict.pkl', 'wb')) 
 
-    pickle.dump(vectorizer, open('tfidf_model.pkl', 'wb'))
-    pickle.dump(X, open('questions_tfidf.pkl', 'wb'))
-    pickle.dump(tokens, open('tokens_dict.pkl', 'wb'))
+
+# In[27]:
+
+def cosine_sim(query, base):
+    cosine_similarities = linear_kernel(query, base).flatten()
+    ## Get indices of top 5 docs that maximize tfidf cosine
+    related_docs_indices = cosine_similarities.argsort()[:-7:-1]
+    print("Indices of best docs: " + str(related_docs_indices))
+    print("Best docs cosine score: " + str(cosine_similarities[related_docs_indices]))
+    return related_docs_indices
 
 
-# In[ ]:
-
+# In[152]:
 
 if __name__ == '__main__':
     stem_data(df)
     remove_stop_words(df)
     vectorizer(df)
+
+
+# In[ ]:
+
+## In order to score the query use the following steps after query tfidf preprocess
+x = pickle.load(open('tex_sim_pkls/questions_tfidf.pkl', 'rb'))
+a = x[0:1]
+cosine_sim(a,x)
+
