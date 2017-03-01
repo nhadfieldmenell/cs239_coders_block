@@ -1,3 +1,7 @@
+"""Script containing method to extract a user's reputation (extract_reputation).
+"""
+
+
 from lxml import html
 import pickle
 import requests
@@ -7,6 +11,25 @@ from collections import defaultdict
 import csv
 import pdb
 
+
+def extract_reputation(uid):
+    """Lookup a user's reputation.
+
+    Args:
+        uid: StackOverflow user id.
+
+    Return:
+        That user's reputation.
+    """
+
+    page = requests.get('http://stackoverflow.com/users/%d' % uid)
+    tree = html.fromstring(page.content)
+    try:
+        reputation = int(re.sub(',', '', tree.xpath('//div[@title="reputation"]/text()')[0].strip()))
+    except:
+        print "PROBLEM EXTRACTING REPUTATION"
+        reputation = 0
+    return reputation 
 
 class ReputationCalculator:
     def __init__(self):
@@ -64,24 +87,6 @@ class ReputationCalculator:
             pickle.dump(self.uid2reputation, outfile)
 
 
-def extract_reputation(uid):
-    """Lookup a user's reputation.
-
-    Args:
-        uid: StackOverflow user id.
-
-    Return:
-        That user's reputation.
-    """
-
-    page = requests.get('http://stackoverflow.com/users/%d' % uid)
-    tree = html.fromstring(page.content)
-    try:
-        reputation = int(re.sub(',', '', tree.xpath('//div[@title="reputation"]/text()')[0].strip()))
-    except:
-        print "PROBLEM EXTRACTING REPUTATION"
-        reputation = 0
-    return reputation 
 
 def main():
     r = ReputationCalculator()
