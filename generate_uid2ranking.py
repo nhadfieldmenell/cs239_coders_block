@@ -79,7 +79,7 @@ def extract_reputation(uid):
     try:
         reputation = int(re.sub(',', '', tree.xpath('//div[@title="reputation"]/text()')[0].strip()))
     except:
-        pdb.set_trace()
+        print "PROBLEM EXTRACTING REPUTATION"
         reputation = 0
     return reputation 
 
