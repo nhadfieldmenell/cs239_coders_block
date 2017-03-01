@@ -6,7 +6,7 @@
 import pandas as pd
 import numpy as np
 from bs4 import BeautifulSoup
-#import nltk
+import nltk
 from nltk.corpus import stopwords
 from nltk.stem.snowball import *
 import re
