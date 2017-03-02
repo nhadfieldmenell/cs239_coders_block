@@ -9,13 +9,7 @@ from bs4 import BeautifulSoup
 import pickle
 
 
-# In[144]:
-
-dfq = pd.read_csv('pythonquestions/Questions.csv', encoding='iso-8859-1')
-dfa = pd.read_csv('pythonquestions/Answers.csv', encoding='iso-8859-1')
-
-
-# In[ ]:
+# In[145]:
 
 def preprocess(questions, answers):
     for i, row in answers.iterrows():
@@ -29,12 +23,15 @@ def preprocess(questions, answers):
         questions.set_value(idx, 'Body', body[idx])
 
 
-# In[ ]:
+# In[146]:
 
 preprocess(dfq, dfa)
 
 
 # In[ ]:
 
-
+if __name__ == '__main__':
+    dfq = pd.read_csv('pythonquestions/Questions.csv', encoding='iso-8859-1')
+    dfa = pd.read_csv('pythonquestions/Answers.csv', encoding='iso-8859-1')
+    dfq.to_csv('pythonquestions/Discussions.csv', encoding='iso-8859-1')
 
