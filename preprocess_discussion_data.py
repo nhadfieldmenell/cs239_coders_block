@@ -22,16 +22,11 @@ def preprocess(questions, answers):
             print(body[idx])
         questions.set_value(idx, 'Body', body[idx])
 
-
-# In[146]:
-
-preprocess(dfq, dfa)
-
-
 # In[ ]:
 
 if __name__ == '__main__':
     dfq = pd.read_csv('pythonquestions/Questions.csv', encoding='iso-8859-1')
     dfa = pd.read_csv('pythonquestions/Answers.csv', encoding='iso-8859-1')
+    preprocess(dfq, dfa)
     dfq.to_csv('pythonquestions/Discussions.csv', encoding='iso-8859-1')
 
