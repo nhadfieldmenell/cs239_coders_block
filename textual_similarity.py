@@ -102,7 +102,7 @@ if __name__ == '__main__':
 # In[ ]:
 
 ## In order to score the query use the following steps after query tfidf preprocess
-x = pickle.load(open('tex_sim_pkls/questions_tfidf.pkl', 'rb'))
+x = pickle.load(open('tex_sim_pkls/processed_discussions.pkl', 'rb'))
 a = x[0:1]
 cosine_sim(a,x)
 
