@@ -1,12 +1,12 @@
 
 # coding: utf-8
 
-# In[1]:
+# In[42]:
 
 import pandas as pd
 import numpy as np
 from bs4 import BeautifulSoup
-#import nltk
+import nltk
 from nltk.corpus import stopwords
 from nltk.stem.snowball import *
 import re
@@ -15,20 +15,15 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
 
 
-# In[148]:
+# In[43]:
 
 '''
 Iterate through the entire question database, preprocess the content of the 'Body'
 and creare a Tf/Idf matrix to be used for scoring the query from the client.
 '''
 
-# Load data and use correct encoding 
-df = pd.read_csv('pythonquestions/Questions.csv', encoding='iso-8859-1')
-# Using nltk data for stop words etc'
-nltk.data.path.append('/Users/orpaz/Developer/nltk_data')
 
-
-# In[149]:
+# In[44]:
 
 def stem_data(data):
     '''
@@ -37,13 +32,17 @@ def stem_data(data):
     stemmer = SnowballStemmer('english')
 
     for i, row in data.iterrows():
-        q = (" ").join([z for z in BeautifulSoup(row['Body'], 'html5lib').get_text(" ").split(" ")])
+        soup = BeautifulSoup(row['Body'], 'html5lib')
+        codetags = soup.find_all('code')
+        for codetag in codetags:
+            codetag.extract()
+        q = (" ").join([z for z in soup.get_text(" ").split(" ")])
         q = re.sub("[^a-zA-Z0-9]"," ", q)
         q = (" ").join([stemmer.stem(z) for z in q.split()])
         data.set_value(i, "processed_body", str(q))
 
 
-# In[150]:
+# In[45]:
 
 def remove_stop_words(data):
     '''
@@ -58,7 +57,7 @@ def remove_stop_words(data):
         data.set_value(i, "processed_body", q)
 
 
-# In[151]:
+# In[46]:
 
 def vectorizer(data):
     '''
@@ -76,7 +75,7 @@ def vectorizer(data):
     pickle.dump(tokens, open('tex_sim_pkls/tokens_dict.pkl', 'wb')) 
 
 
-# In[27]:
+# In[47]:
 
 def cosine_sim(query, base):
     cosine_similarities = linear_kernel(query, base).flatten()
@@ -87,12 +86,17 @@ def cosine_sim(query, base):
     return related_docs_indices
 
 
-# In[152]:
+# In[ ]:
 
 if __name__ == '__main__':
+    # Load data and use correct encoding 
+    df = pd.read_csv('pythonquestions/Discussions.csv', encoding='iso-8859-1')
+    # Using nltk data for stop words etc'
+    nltk.data.path.append('/Users/orpaz/Developer/nltk_data')
     stem_data(df)
     remove_stop_words(df)
     vectorizer(df)
+    df.to_csv('pythonquestions/processed_discussions.csv', encoding='iso-8859-1')
 
 
 # In[ ]:
@@ -101,4 +105,9 @@ if __name__ == '__main__':
 x = pickle.load(open('tex_sim_pkls/questions_tfidf.pkl', 'rb'))
 a = x[0:1]
 cosine_sim(a,x)
+
+
+# In[ ]:
+
+
 
