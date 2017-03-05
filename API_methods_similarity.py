@@ -15,11 +15,6 @@ import ast
 from collections import deque
 
 
-# In[177]:
-
-data = pd.read_csv('pythonquestions/Questions.csv', encoding='iso-8859-1')
-
-
 # In[200]:
 
 def stem_data(data):
@@ -37,19 +32,12 @@ def stem_data(data):
             data.set_value(i, "Methods", str(q))
 
 
-# In[201]:
+# In[ ]:
 
-n = data.sample(n=20)
-
-
-# In[202]:
-
-stem_data(n)
-
-
-# In[203]:
-
-n
+if __name__ == '__main__':
+    data = pd.read_csv('pythonquestions/Questions.csv', encoding='iso-8859-1')
+    # n = data.sample(n=20)
+    stem_data(data)
 
 
 # In[ ]:

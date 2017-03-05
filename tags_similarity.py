@@ -20,11 +20,6 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 Iterate through the entire tags database, preprocess the content of the tags
 and creare an Id -> set of tags dataframe to be used for scoring the tag similarity of the query.
 '''
-# Load data and use correct encoding 
-#qdf = pd.read_csv('pythonquestions/Questions.csv', encoding='iso-8859-1')
-tdf = pd.read_csv('pythonquestions/Tags.csv', encoding='iso-8859-1')
-# Using nltk data for stop words etc'
-nltk.data.path.append('/Users/orpaz/Developer/nltk_data')
 
 
 # In[39]:
@@ -46,6 +41,11 @@ def aggregate_tags(data):
 
 # The result of these step can be tested for the intersection with the tags from the query
 if __name__ == '__main__':
+    # Load data and use correct encoding 
+    #qdf = pd.read_csv('pythonquestions/Questions.csv', encoding='iso-8859-1')
+    tdf = pd.read_csv('pythonquestions/Tags.csv', encoding='iso-8859-1')
+    # Using nltk data for stop words etc'
+    nltk.data.path.append('/Users/orpaz/Developer/nltk_data')
     stem_tags(tdf)
     aggregate_tags(tdf)
     #df = qdf.join(tdf.set_index('Id'), on='Id')
