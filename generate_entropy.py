@@ -21,9 +21,9 @@ class EntropyCalculator:
     def __init__(self):
         self.term2count = defaultdict(int)
         self.term2discussion2count = {}
-        self.questions_fn = '../pythonquestions/Questions.csv'
-        self.answers_fn = '../pythonquestions/Answers.csv'
-        self.tags_fn = '../pythonquestions/Tags.csv'
+        self.questions_fn = 'pythonquestions/Questions.csv'
+        self.answers_fn = 'pythonquestions/Answers.csv'
+        self.tags_fn = 'pythonquestions/Tags.csv'
         self.discussions = set()
         self.term2entropy = defaultdict(float)
 
@@ -133,7 +133,7 @@ class EntropyCalculator:
 
     def count_terms(self):
         """Iterate through all discussions (questions & answers) to count the occurrences of terms.
-        
+
         Update term2count, term2discussion2count, and discussions.
         """
         self.process_csv()
@@ -153,5 +153,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-

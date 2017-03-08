@@ -29,12 +29,12 @@ def extract_reputation(uid):
     except:
         print "PROBLEM EXTRACTING REPUTATION"
         reputation = 0
-    return reputation 
+    return reputation
 
 class ReputationCalculator:
     def __init__(self):
-        self.questions_fn = '../pythonquestions/Questions.csv'
-        self.answers_fn = '../pythonquestions/Answers.csv'
+        self.questions_fn = 'pythonquestions/Questions.csv'
+        self.answers_fn = 'pythonquestions/Answers.csv'
         self.uids = set()
         self.uid2reputation = defaultdict(int)
 
