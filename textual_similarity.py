@@ -118,7 +118,7 @@ def tf_score(d, df):
     d['code'] = stem_data(d, query = True)
     d['code'] = remove_stop_words(d, query = True)
     X = vectorizer(d, query = True)
-    related_docs = cosine_sim(X,x)
+    related_docs = cosine_sim(X,disc)
     print('\n Example result: \n' + df.iloc[related_docs[2]]['Body'])
 
 
