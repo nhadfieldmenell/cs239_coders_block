@@ -19,7 +19,7 @@ import operator
 
 def generate_query(code_context, term2entropy, n):
     TQI = {}
-    func_calls = code_context['func_calls']
+    func_calls = code_context['methods']
     freqs = Counter(func_calls)
     for func_call in func_calls:
         v_t = freqs[func_call]

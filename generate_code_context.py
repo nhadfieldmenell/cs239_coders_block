@@ -34,7 +34,7 @@ class FuncCallVisitor(ast.NodeVisitor):
         except AttributeError:
             self.generic_visit(node)
 
-def get_func_calls(tree):
+def get_code_context(infile):
     '''
         Extract every function calls and every library imports by the targeted python script;
         Return object signature:
@@ -43,10 +43,12 @@ def get_func_calls(tree):
                 'imports': [impor1, import2, ...]
             }
     '''
+    tree = ast.parse(infile)
 
     #TODO: extract function definition and class definition
+    #TODO: include everything from the code
     func_calls = []
-    imports = []
+    imports = set()
     for node in ast.walk(tree):
         if isinstance(node, ast.Call):
             callvisitor = FuncCallVisitor()
@@ -54,15 +56,16 @@ def get_func_calls(tree):
             func_calls.append(callvisitor.name)
         if isinstance(node, ast.Import):
             for alias in node.names:
-                imports.append(alias.name)
+                imports.add(alias.name)
         if isinstance(node, ast.ImportFrom):
             module = node.module
             for alias in node.names:
-                imports.append(module + '.' + alias.name)
+                imports.add(module + '.' + alias.name)
 
     return {
-        'func_calls': func_calls,
-        'imports': imports
+        'methods': func_calls,
+        'imports': imports,
+        'code': infile
         }
 
 
@@ -71,8 +74,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--input', help='Input .py file', required=True)
     args = parser.parse_args()
-    tree = ast.parse(open(args.input).read())
-    result = get_func_calls(tree)
+    infile = open(args.input).read()
+    result = get_code_context(infile)
     print result
     with open('code_context.pkl', 'wb') as outfile:
         pickle.dump(result, outfile)
