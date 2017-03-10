@@ -6,6 +6,8 @@
 import textual_similarity
 import tags_similarity
 import API_methods_similarity
+from datetime import datetime
+import numpy as np
 
 
 # In[2]:
@@ -39,56 +41,42 @@ def question_scores():
         s += row['Score']
 
 
-# In[6]:
-
-txt_score = textual_similarity.tf_score(d)
-
-
-# In[7]:
-
-tgs_score = tags_similarity.tags_score(d)
-
-
 # In[8]:
 
-mth_score = API_methods_similarity.score_methods(d)
+def get_scores(d):
+    # Time the function
+    startTime = datetime.now()
+    txt_score = textual_similarity.tf_score(d)
+    print ("Textual finished after: " + str(datetime.now() - startTime))
+    startTime = datetime.now()
+    tgs_score = tags_similarity.tags_score(d)
+    print ("Tags finished after: " + str(datetime.now() - startTime))
+    startTime = datetime.now()
+    mth_score = API_methods_similarity.score_methods(d)
+    print ("Methods finished after: " + str(datetime.now() - startTime))
+    
+    startTime = datetime.now()
+    mth_score = [float(i) for i in mth_score]
+    tgs_score = [float(i) for i in tgs_score]
+    txt_score = [float(i) for i in txt_score]
+    
+    txt_score = list(map(lambda x: x * 0.32, txt_score))
+    tgs_score = list(map(lambda x: x * 0.18, tgs_score))
+    mth_score = list(map(lambda x: x * 0.30, mth_score))
+    
+    res = [x + y + z for x, y, z in zip(txt_score, tgs_score, mth_score)]
+    
+    #top 5
+    top = np.argsort(res)[-5:][::-1]
+    
+    print ("All the rest finished after: " + str(datetime.now() - startTime))
+    
+    return top
 
 
-# In[30]:
+# In[9]:
 
-mth_score = [float(i) for i in mth_score]
-
-
-# In[31]:
-
-tgs_score = [float(i) for i in tgs_score]
-
-
-# In[33]:
-
-txt_score = [float(i) for i in txt_score]
-
-
-# In[38]:
-
-txt_score = list(map(lambda x: x * 0.32, txt_score))
-tgs_score = list(map(lambda x: x * 0.18, tgs_score))
-mth_score = list(map(lambda x: x * 0.30, mth_score))
-
-
-# In[42]:
-
-res = [x + y + z for x, y, z in zip(txt_score, tgs_score, mth_score)]
-
-
-# In[48]:
-
-import numpy as np
-
-
-# In[52]:
-
-np.argsort(res)[-5:][::-1]
+top = get_scores(d)
 
 
 # In[56]:
