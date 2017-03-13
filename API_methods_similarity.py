@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[50]:
+# In[1]:
 
 import pandas as pd
 import numpy as np
@@ -15,7 +15,12 @@ import ast
 from collections import deque
 
 
-# In[200]:
+# In[ ]:
+
+data = pd.read_csv('pythonquestions/processed_discussions.csv', encoding='iso-8859-1')
+
+
+# In[2]:
 
 def stem_data(data):
     '''
@@ -32,15 +37,24 @@ def stem_data(data):
             data.set_value(i, "Methods", str(q))
 
 
-# In[ ]:
+# In[65]:
+
+def score_methods(d):
+    lst = list()
+    for i, row in data.iterrows():
+        if type(row['Methods']) is str:
+            #print(row['Methods'], i)
+            s = set(eval(row['Methods'])) & set(d['methods'])
+            res = len(s) / len(set(d['methods']))
+            lst.append(res)
+        else:
+            lst.append(0)
+    return lst
+
+
+# In[3]:
 
 if __name__ == '__main__':
-    data = pd.read_csv('pythonquestions/Questions.csv', encoding='iso-8859-1')
     # n = data.sample(n=20)
     stem_data(data)
-
-
-# In[ ]:
-
-
 
