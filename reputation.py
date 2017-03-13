@@ -43,6 +43,8 @@ def gen_uids_reps():
         pickle.dump(uids_reps, outfile)
 
 def update_avg_reputation():
+    """Call this function iteratively once StackOverflow allows more requests.
+    """
     uid_rep_fn = 'uids_reps.pkl'
     with open(uid_rep_fn, 'rb') as infile:
         uids_reps = pickle.load(infile)
@@ -53,6 +55,9 @@ def update_avg_reputation():
         print 'AVERAGE REPUTATION BEFORE'
         print avg_rep
     while True:
+        if not uids_reps[0]:
+            print "NO MORE UIDS"
+            break
         uid = uids_reps[0].pop()
         rep = extract_reputation(uid)
         print rep
