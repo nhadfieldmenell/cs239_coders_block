@@ -31,10 +31,14 @@ def extract_reputation(uid):
         reputation = 0
     return reputation
 
+
+
+
+
 class ReputationCalculator:
     def __init__(self):
-        self.questions_fn = 'pythonquestions/Questions.csv'
-        self.answers_fn = 'pythonquestions/Answers.csv'
+        self.questions_fn = '../pythonquestions/Questions.csv'
+        self.answers_fn = '../pythonquestions/Answers.csv'
         self.uids = set()
         self.uid2reputation = defaultdict(int)
 
@@ -42,10 +46,13 @@ class ReputationCalculator:
         """Extract all uids.
         """
         self.process_csv(True)
+        """
+        print 'processed questions'
         self.process_csv(False)
+        """
         print len(self.uids)
-        with open('uids.pkl', 'wb') as outfile:
-            pickle.dump(self.uids)
+        with open('uids_questions.pkl', 'wb') as outfile:
+            pickle.dump(self.uids, outfile)
 
 
     def process_csv(self, questions=True):
@@ -91,6 +98,7 @@ class ReputationCalculator:
 def main():
     r = ReputationCalculator()
     r.parse_uids()
+    return
     r.register_reputations()
 
 if __name__ == '__main__':
