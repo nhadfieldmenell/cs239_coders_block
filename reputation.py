@@ -10,6 +10,7 @@ import time
 from collections import defaultdict
 import csv
 import pdb
+import random
 
 
 def extract_reputation(uid):
@@ -28,11 +29,70 @@ def extract_reputation(uid):
         reputation = int(re.sub(',', '', tree.xpath('//div[@title="reputation"]/text()')[0].strip()))
     except:
         print "PROBLEM EXTRACTING REPUTATION"
-        reputation = 0
+        reputation = -1
     return reputation
 
+def gen_uids_reps():
+    with open('uids_questions.pkl', 'rb') as infile:
+        uids = pickle.load(infile)
 
+    uids = [i for i in uids]
+    random.shuffle(uids)
+    uids_reps = [uids, []]
+    with open('uids_reps.pkl', 'wb') as outfile:
+        pickle.dump(uids_reps, outfile)
 
+def update_avg_reputation():
+    uid_rep_fn = 'uids_reps.pkl'
+    with open(uid_rep_fn, 'rb') as infile:
+        uids_reps = pickle.load(infile)
+
+    reps = uids_reps[1]
+    if reps:
+        avg_rep = sum(reps) / len(reps)
+        print 'AVERAGE REPUTATION BEFORE'
+        print avg_rep
+    while True:
+        uid = uids_reps[0].pop()
+        rep = extract_reputation(uid)
+        print rep
+        if rep == -1:
+            break
+        uids_reps[1].append(rep)
+
+    with open(uid_rep_fn, 'wb') as outfile:
+        pickle.dump(uids_reps, outfile)
+
+    reps = uids_reps[1]
+    avg_rep = float(sum(reps)) / float(len(reps))
+    print 'AVERAGE REPUTATION AFTER'
+    print avg_rep
+    with open('reputation_question_avg.pkl', 'wb') as outfile:
+        pickle.dump(avg_rep, outfile)
+        
+
+def average_reputation(num_to_avg=120, in_fn='uids_questions.pkl'):
+    """Calculate the average repuation of question askers in the data dump.
+    """
+    with open(in_fn, 'rb') as infile:
+        uids = pickle.load(infile)
+
+    uids = [i for i in uids]
+    choices = random.sample(xrange(len(uids)), num_to_avg)
+    selected_uids = [uids[i] for i in choices]
+
+    reps = []
+    for uid in selected_uids:
+        rep = extract_reputation(uid)
+        print rep
+        if rep >= 0:
+            reps.append(float(rep))
+    avg_rep = sum(reps) / len(reps)
+    print 'AVERAGE REPUTATION'
+    print avg_rep
+
+    with open('reputation_question_avg.pkl', 'wb') as outfile:
+        pickle.dump(avg_rep, outfile)
 
 
 class ReputationCalculator:
@@ -96,9 +156,11 @@ class ReputationCalculator:
 
 
 def main():
+    update_avg_reputation()
+    return
+    average_reputation()
     r = ReputationCalculator()
     r.parse_uids()
-    return
     r.register_reputations()
 
 if __name__ == '__main__':
