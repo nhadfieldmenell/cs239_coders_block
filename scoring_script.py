@@ -8,6 +8,8 @@ import tags_similarity
 import API_methods_similarity
 from datetime import datetime
 import numpy as np
+import pickle
+import math
 
 
 # In[2]:
@@ -35,13 +37,11 @@ d = {'imports' : {'pandas', 'numpy', 'scipy'},
 
 # In[3]:
 
-def question_scores():
-    s = 0
-    for i, row in df.iterrows():
-        s += row['Score']
+def sigmoid(x ,avg):
+    return 1 / (1 + math.exp(avg-x))
 
 
-# In[8]:
+# In[4]:
 
 def get_scores(d):
     # Time the function
@@ -54,17 +54,21 @@ def get_scores(d):
     startTime = datetime.now()
     mth_score = API_methods_similarity.score_methods(d)
     print ("Methods finished after: " + str(datetime.now() - startTime))
+    qtn_score = textual_similarity.df.Score
     
     startTime = datetime.now()
     mth_score = [float(i) for i in mth_score]
     tgs_score = [float(i) for i in tgs_score]
     txt_score = [float(i) for i in txt_score]
+    avg = np.mean(qtn_score)
+    qtn_score = [sigmoid(i, avg) for i in qtn_score]
     
     txt_score = list(map(lambda x: x * 0.32, txt_score))
     tgs_score = list(map(lambda x: x * 0.18, tgs_score))
     mth_score = list(map(lambda x: x * 0.30, mth_score))
+    qtn_score = list(map(lambda x: x * 0.07, qtn_score))
     
-    res = [x + y + z for x, y, z in zip(txt_score, tgs_score, mth_score)]
+    res = [x + y + z + w for x, y, z, w in zip(txt_score, tgs_score, mth_score, qtn_score)]
     
     #top 5
     top = np.argsort(res)[-5:][::-1]
@@ -74,14 +78,22 @@ def get_scores(d):
     return top
 
 
-# In[9]:
+# In[6]:
 
-top = get_scores(d)
+if __name__ == '__main__':
+    with open('code_context.pkl', 'rb') as f:
+        q = pickle.load(f)
+    top = get_scores(q)
 
 
-# In[56]:
+# In[8]:
 
-textual_similarity.df.iloc[506700]['Body']
+top
+
+
+# In[ ]:
+
+textual_similarity.df.iloc[224237]['Id']
 
 
 # In[ ]:
