@@ -30,7 +30,7 @@ def stem_data(data):
 
     for i, row in data.iterrows():
         q = [z.get_text(" ").split(" ") for z in BeautifulSoup(row['Body'], 'html5lib').findAll('code')]
-        if q:  
+        if q:
             q = (" ").join([item for sublist in q for item in sublist])
             q = re.sub("[^a-zA-Z0-9]"," ", q)
             q = [stemmer.stem(z) for z in q.split()]
@@ -57,4 +57,3 @@ def score_methods(d):
 if __name__ == '__main__':
     # n = data.sample(n=20)
     stem_data(data)
-
