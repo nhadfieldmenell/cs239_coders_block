@@ -1,0 +1,72 @@
+Evaluation
+	plot_linear_regression
+		usefulness
+			Noah: 1
+			Orpaz:
+			Nick:
+		best suggestion
+			Noah: 4
+			Orpaz:
+			Nick:		
+
+	quicksort
+		usefulness
+			Noah: 
+			Orpaz:
+			Nick:
+		best suggestion
+			Noah: 
+			Orpaz:
+			Nick:			
+
+	red_black
+		usefulness
+			Noah: 
+			Orpaz:
+			Nick:
+		best suggestion
+			Noah: 
+			Orpaz:
+			Nick:			
+
+	tensorflow_mutilayer_nn
+		usefulness
+			Noah: 
+			Orpaz:
+			Nick:
+		best suggestion
+			Noah: 
+			Orpaz:
+			Nick:			
+
+	viterbi
+		usefulness
+			Noah: 
+			Orpaz:
+			Nick:
+		best suggestion
+			Noah: 
+			Orpaz:
+			Nick:			
+
+	bfs
+		usefulness
+			Noah: 
+			Orpaz:
+			Nick:
+		best suggestion
+			Noah: 
+			Orpaz:
+			Nick:			
+
+	pickle
+		usefulness
+			Noah: 
+			Orpaz:
+			Nick:
+		best suggestion
+			Noah: 
+			Orpaz:
+			Nick:
+			
+	
