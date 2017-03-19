@@ -77,5 +77,6 @@ if __name__ == '__main__':
     infile = open(args.input).read()
     result = get_code_context(infile)
     print result
-    with open('code_context.pkl', 'wb') as outfile:
+    outfile_name = args.input + '.pkl'
+    with open(outfile_name, 'wb') as outfile:
         pickle.dump(result, outfile)
