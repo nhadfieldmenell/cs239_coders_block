@@ -1,0 +1,19 @@
+(dp0
+S'imports'
+p1
+c__builtin__
+set
+p2
+((lp3
+S'pickle'
+p4
+atp5
+Rp6
+sS'code'
+p7
+S'import pickle\n\ndef save_pickle(dict):\n  # Store the dictionary in a pickle file\n  pass\n  \ndef load_pickle(infile):\n  # load a pickle\n  pass\n'
+p8
+sS'methods'
+p9
+(lp10
+s.

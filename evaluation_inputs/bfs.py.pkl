@@ -1,0 +1,23 @@
+(dp0
+S'imports'
+p1
+c__builtin__
+set
+p2
+((lp3
+tp4
+Rp5
+sS'code'
+p6
+S'def bfs(node,goal,size,grid):\n    # breadth first search implementation\n    queue = deque()\n    queue.append(node)\n    explored.append(node.point)\n'
+p7
+sS'methods'
+p8
+(lp9
+S'deque'
+p10
+aS'queue.append'
+p11
+aS'explored.append'
+p12
+as.
