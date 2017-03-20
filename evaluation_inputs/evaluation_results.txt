@@ -11,17 +11,17 @@ Evaluation
 
 	quicksort
 		usefulness
-			Noah:
+			Noah: 1
 			Orpaz:
 			Nick:
 		best suggestion
-			Noah:
+			Noah: 2
 			Orpaz:
 			Nick:
 
 	red_black
 		usefulness
-			Noah:
+			Noah: 0
 			Orpaz:
 			Nick: 0
 		best suggestion
@@ -33,7 +33,7 @@ Evaluation
 		usefulness
 			Noah: 0
 			Orpaz:
-			Nick:
+			Nick: 0
 		best suggestion
 			Noah:
 			Orpaz:
@@ -41,11 +41,11 @@ Evaluation
 
 	viterbi
 		usefulness
-			Noah:
+			Noah: 1
 			Orpaz:
 			Nick: 1
 		best suggestion
-			Noah:
+			Noah: 4
 			Orpaz:
 			Nick:	4
 
