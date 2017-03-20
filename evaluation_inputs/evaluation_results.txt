@@ -53,18 +53,18 @@ Evaluation
 		usefulness
 			Noah:
 			Orpaz:
-			Nick:
+			Nick: 1
 		best suggestion
 			Noah:
 			Orpaz:
-			Nick:
+			Nick: 3
 
 	pickle
 		usefulness
 			Noah:
 			Orpaz:
-			Nick:
+			Nick: 1
 		best suggestion
 			Noah:
 			Orpaz:
-			Nick:
+			Nick: 3
