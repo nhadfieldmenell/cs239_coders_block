@@ -42,7 +42,7 @@ Evaluation
 	viterbi
 		usefulness
 			Noah: 1
-			Orpaz:
+			Orpaz:1
 			Nick: 1
 		best suggestion
 			Noah: 4
