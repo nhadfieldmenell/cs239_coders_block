@@ -51,20 +51,20 @@ Evaluation
 
 	bfs
 		usefulness
-			Noah:
+			Noah: 1
 			Orpaz:
 			Nick:
 		best suggestion
-			Noah:
+			Noah: 1
 			Orpaz:
 			Nick:
 
 	pickle
 		usefulness
-			Noah:
+			Noah: 1
 			Orpaz:
 			Nick:
 		best suggestion
-			Noah:
+			Noah: 3
 			Orpaz:
 			Nick:
