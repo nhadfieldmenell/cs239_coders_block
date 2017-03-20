@@ -11,17 +11,17 @@ Evaluation
 
 	quicksort
 		usefulness
-			Noah: 
+			Noah: 1
 			Orpaz:
 			Nick:
 		best suggestion
-			Noah: 
+			Noah: 2
 			Orpaz:
 			Nick:			
 
 	red_black
 		usefulness
-			Noah: 
+			Noah: 0
 			Orpaz:
 			Nick:
 		best suggestion
@@ -31,7 +31,7 @@ Evaluation
 
 	tensorflow_mutilayer_nn
 		usefulness
-			Noah: 
+			Noah: 0
 			Orpaz:
 			Nick:
 		best suggestion
@@ -41,11 +41,11 @@ Evaluation
 
 	viterbi
 		usefulness
-			Noah: 
+			Noah: 1
 			Orpaz:
 			Nick:
 		best suggestion
-			Noah: 
+			Noah: 4
 			Orpaz:
 			Nick:			
 
