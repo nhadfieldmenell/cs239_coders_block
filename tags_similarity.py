@@ -27,6 +27,9 @@ df = pd.read_csv('pythonquestions/processed_discussions.csv', encoding='iso-8859
 # In[6]:
 
 def stem_tags(data):
+'''
+Remove non letter charecters from tags. We are not interested in version identifyers
+'''
     for i, row in data.iterrows():
         if type(row['Tag']) is str:
             st = " ".join(re.findall("[a-zA-Z]+", row['Tag']))
@@ -36,12 +39,18 @@ def stem_tags(data):
 # In[7]:
 
 def aggregate_tags(data):
+'''
+Group all tags by it's parent id (the question it belongs to)
+'''
     return (data.groupby('Id').agg(lambda x: set(x))).reset_index()
 
 
 # In[24]:
 
 def tags_score(d):
+'''
+Scoring function to compare client query to the tags used on stackoverflow for a question
+'''
     lst = list()
     for i, row in df['Tag'].iteritems():
         try:
