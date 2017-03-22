@@ -8,6 +8,9 @@ import numpy as np
 from bs4 import BeautifulSoup
 import pickle
 
+'''
+First step of preprocessing. Combining Questions dataset and Answers into one big Discussions dataset
+'''
 
 # In[145]:
 
