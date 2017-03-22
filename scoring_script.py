@@ -13,6 +13,9 @@ import math
 
 
 # In[2]:
+'''
+Scoring script is aggregating all scoring functions and applies weights to the different scoring componenets
+'''
 
 ## An example query containing quicksort algorithm
 d = {'imports' : {'pandas', 'numpy', 'scipy'},
@@ -44,6 +47,9 @@ def sigmoid(x ,avg):
 # In[4]:
 
 def get_scores(d):
+'''
+Get scores from all scripts, Time the execution, Apply weights and return results.
+'''
     # Time the function
     startTime = datetime.now()
     txt_score = textual_similarity.tf_score(d)
