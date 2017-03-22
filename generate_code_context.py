@@ -76,7 +76,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     infile = open(args.input).read()
     result = get_code_context(infile)
-    print result
+    print(result)
     outfile_name = args.input + '.pkl'
     with open(outfile_name, 'wb') as outfile:
         pickle.dump(result, outfile)

@@ -15,8 +15,8 @@ import math
 # In[2]:
 
 ## An example query containing quicksort algorithm
-d = {'imports' : {'pandas', 'numpy', 'scipy'}, 
-     'methods' : ['quickSort', 'quickSortHelper', 'partition'], 
+d = {'imports' : {'pandas', 'numpy', 'scipy'},
+     'methods' : ['quickSort', 'quickSortHelper', 'partition'],
      'code' : '''function quicksort(array)
     if length(array) > 1
         pivot := select any element of array
@@ -55,27 +55,29 @@ def get_scores(d):
     mth_score = API_methods_similarity.score_methods(d)
     print ("Methods finished after: " + str(datetime.now() - startTime))
     qtn_score = textual_similarity.df.Score
-    
+
     startTime = datetime.now()
     mth_score = [float(i) for i in mth_score]
     tgs_score = [float(i) for i in tgs_score]
     txt_score = [float(i) for i in txt_score]
     avg = np.mean(qtn_score)
     qtn_score = [sigmoid(i, avg) for i in qtn_score]
-    
+
     txt_score = list(map(lambda x: x * 0.32, txt_score))
     tgs_score = list(map(lambda x: x * 0.18, tgs_score))
     mth_score = list(map(lambda x: x * 0.30, mth_score))
     qtn_score = list(map(lambda x: x * 0.07, qtn_score))
-    
+
     res = [x + y + z + w for x, y, z, w in zip(txt_score, tgs_score, mth_score, qtn_score)]
-    
+
     #top 5
     top = np.argsort(res)[-5:][::-1]
-    
+
     print ("All the rest finished after: " + str(datetime.now() - startTime))
-    
-    return top
+    results = []
+    for r in top:
+        results.append('http://stackoverflow.com/questions/' + str(textual_similarity.df.iloc[r]['Id']))
+    return results
 
 
 # In[8]:
@@ -86,19 +88,16 @@ if __name__ == '__main__':
     top = get_scores(q)
 
 
-# In[9]:
-
-top
-
-
-# In[10]:
-
-print('tensorflow_mutilayer_nn_sample results:')
-for r in top:
-    print('http://stackoverflow.com/questions/' + str(textual_similarity.df.iloc[r]['Id']))
+# # In[9]:
+#
+# top
+#
+#
+# # In[10]:
+#
+# print('tensorflow_mutilayer_nn_sample results:')
+# for r in top:
+#     print('http://stackoverflow.com/questions/' + str(textual_similarity.df.iloc[r]['Id']))
 
 
 # In[ ]:
-
-
-
