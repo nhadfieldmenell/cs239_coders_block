@@ -2,6 +2,10 @@ from distutils.core import setup
 from Cython.Build import cythonize
 import sys
 
+'''
+Compiling python into cyton code to speedup execution
+'''
+
 print("Cytonizing your files")
 setup(
   name = 'test',
