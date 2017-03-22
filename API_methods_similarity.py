@@ -17,6 +17,11 @@ from ast import literal_eval
 
 # In[10]:
 
+'''
+Iterate through the entire tags database, extract the code component of the discussion, 
+snowball stemming the extracted code and removing non alphabetical charecters.
+'''
+
 data = pd.read_csv('pythonquestions/processed_discussions.csv', encoding='iso-8859-1')
 df = [literal_eval(x) for x in data['Methods'].fillna("[]")]
 
@@ -41,6 +46,10 @@ def stem_data(data):
 # In[29]:
 
 def score_methods(d):
+'''
+Scoring function for comparing the methods used in the clients query
+to the methods mentiond in the stackoverflow discussions.
+'''
     lst = list()
     for row in df:
         if type(row) is str:
