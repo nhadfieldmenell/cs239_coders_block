@@ -31,7 +31,9 @@ disc = pickle.load(open('tex_sim_pkls/questions_tfidf.pkl', 'rb'))
 
 def stem_data(data, query = False):
     '''
-    Helper function to stem the body.
+    Helper function to stem the body. 
+    Remove code componenet from the data, use a snowball stemmer to stem the data.
+    Add a column for the processed text
     '''
     stemmer = SnowballStemmer('english')
     
@@ -57,11 +59,10 @@ def stem_data(data, query = False):
 
 
 # In[17]:
-
 def remove_stop_words(data, query = False):
     '''
     Helper function to remove stop words
-    from the body.
+    from the body using nltk english defined stop words.
     '''
     stop = stopwords.words('english')
     
@@ -105,6 +106,9 @@ def vectorizer(data, save = False, query = False):
 # In[2]:
 
 def cosine_sim(query, base):
+    '''
+    Calculate the cosine similarity of query vs the base TF/IDF model
+    '''
     cosine_similarities = linear_kernel(query, base).flatten()
     ## Get indices of top 5 docs that maximize tfidf cosine
     related_docs_indices = cosine_similarities.argsort()[:-7:-1]
@@ -116,6 +120,9 @@ def cosine_sim(query, base):
 # In[87]:
 
 def tf_score(d):
+    '''
+    Run the scoring function.
+    '''
     d['code'] = stem_data(d, query = True)
     d['code'] = remove_stop_words(d, query = True)
     X = vectorizer(d, query = True)
