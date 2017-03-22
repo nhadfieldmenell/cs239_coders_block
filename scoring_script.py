@@ -78,22 +78,24 @@ def get_scores(d):
     return top
 
 
-# In[6]:
+# In[8]:
 
 if __name__ == '__main__':
-    with open('code_context.pkl', 'rb') as f:
+    with open('sample_inputs/tensorflow_mutilayer_nn_sample.py.pkl', 'rb') as f:
         q = pickle.load(f)
     top = get_scores(q)
 
 
-# In[8]:
+# In[9]:
 
 top
 
 
-# In[ ]:
+# In[10]:
 
-textual_similarity.df.iloc[224237]['Id']
+print('tensorflow_mutilayer_nn_sample results:')
+for r in top:
+    print('http://stackoverflow.com/questions/' + str(textual_similarity.df.iloc[r]['Id']))
 
 
 # In[ ]:

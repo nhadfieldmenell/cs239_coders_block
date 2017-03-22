@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[1]:
+# In[9]:
 
 import pandas as pd
 import numpy as np
@@ -11,16 +11,17 @@ from nltk.corpus import stopwords
 from nltk.stem.snowball import *
 import re
 import pickle
-import ast
 from collections import deque
+from ast import literal_eval
 
 
-# In[ ]:
+# In[10]:
 
 data = pd.read_csv('pythonquestions/processed_discussions.csv', encoding='iso-8859-1')
+df = [literal_eval(x) for x in data['Methods'].fillna("[]")]
 
 
-# In[2]:
+# In[11]:
 
 def stem_data(data):
     '''
@@ -30,21 +31,20 @@ def stem_data(data):
 
     for i, row in data.iterrows():
         q = [z.get_text(" ").split(" ") for z in BeautifulSoup(row['Body'], 'html5lib').findAll('code')]
-        if q:
+        if q:  
             q = (" ").join([item for sublist in q for item in sublist])
             q = re.sub("[^a-zA-Z0-9]"," ", q)
             q = [stemmer.stem(z) for z in q.split()]
             data.set_value(i, "Methods", str(q))
 
 
-# In[65]:
+# In[29]:
 
 def score_methods(d):
     lst = list()
-    for i, row in data.iterrows():
-        if type(row['Methods']) is str:
-            #print(row['Methods'], i)
-            s = set(eval(row['Methods'])) & set(d['methods'])
+    for row in df:
+        if type(row) is str:
+            s = set(row) & set(d['methods'])
             res = len(s) / len(set(d['methods']))
             lst.append(res)
         else:
@@ -52,8 +52,15 @@ def score_methods(d):
     return lst
 
 
-# In[3]:
+# In[10]:
 
 if __name__ == '__main__':
     # n = data.sample(n=20)
     stem_data(data)
+    data.to_csv('pythonquestions/processed_discussions.csv', encoding='iso-8859-1', index=False)
+
+
+# In[26]:
+
+
+
